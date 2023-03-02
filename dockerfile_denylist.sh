@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash a
 
 DOCKERFILE_BACKEND="$(cat ./app/backend/Dockerfile)"
 DOCKERFILE_FRONTEND="$(cat ./app/frontend/Dockerfile)"
