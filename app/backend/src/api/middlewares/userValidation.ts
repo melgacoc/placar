@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 export default class userValidation {
-  public static step(
+  public static loginValidation(
     req: Request,
     res: Response,
     next: NextFunction,

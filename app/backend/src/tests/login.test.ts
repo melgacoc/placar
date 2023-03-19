@@ -26,8 +26,8 @@ describe ('Tests for user route', function () {
     it('Should return a token with valid email and password', async function () {
 
         chaiHttpResponse = await chai.request(app).post('/login').send({
-            email: 'trybe@trybe.com',
-            senha: 'nescaumelhorquetoddy',
+            email: user.email,
+            senha: user.password,
         });
 
         const result = chaiHttpResponse
@@ -41,7 +41,7 @@ describe ('Tests for user route', function () {
 
         chaiHttpResponse = await chai.request(app).post('/login').send({
             email: '',
-            senha: 'nescaumelhorquetoddy',
+            senha: user.password,
         });
 
         const result = chaiHttpResponse
@@ -53,7 +53,7 @@ describe ('Tests for user route', function () {
     it('Should return an error when a password is not provide', async function () {
 
         chaiHttpResponse = await chai.request(app).post('/login').send({
-            email: 'trybe@trybe.com',
+            email: user.email,
             senha: '',
         });
 
@@ -61,5 +61,55 @@ describe ('Tests for user route', function () {
 
         expect(result.status).to.be.equal(400);
         expect(result.body.message).to.be.equal('All fields must be filled');
+    });
+
+    it('Should return an error with a not valid email type', async function() {
+
+        chaiHttpResponse = await chai.request(app).post('/login').send({
+            email: 'admin',
+            senha: user.password,
+        });
+
+        const result = chaiHttpResponse
+
+        expect(result.status).to.be.equal(400);
+        expect(result.body.message).to.be.equal('Invalid email or password');
+    });
+
+    it('Should return an error with a not valid password type', async function() {
+            
+        chaiHttpResponse = await chai.request(app).post('/login').send({
+            email: user.email,
+            senha: 'alou',
+        });
+
+        const result = chaiHttpResponse
+
+        expect(result.status).to.be.equal(400);
+        expect(result.body.message).to.be.equal('Invalid email or password');
+    });
+
+    it('Should return a role with a valid token', async function () {
+            
+            chaiHttpResponse = await chai.request(app).post('/login').send({
+                email: user.email,
+                password: user.password,
+            });
+
+            const { body: {
+                token
+            } } = chaiHttpResponse;
+
+            chaiHttpResponse = await chai.request(app).get('/role')
+            .set('Authorization', token)
+            .send({
+                email: user.email,
+                password: user.password,
+            });
+
+            const result = chaiHttpResponse;
+
+            expect(result.status).to.be.equal(200);
+            expect(result.body.role).to.be.equal('admin');
     });
 });

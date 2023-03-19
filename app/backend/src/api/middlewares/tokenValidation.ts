@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-// import * as jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
-// const secret: string = process.env.JWT_SECRET || 'theSecret';
+const secret: string = process.env.JWT_SECRET || 'theSecret';
 
 export default class tokenValidation {
-  public static steps(
+  public static tokenValidation(
     req: Request,
     res: Response,
     next: NextFunction,
@@ -14,8 +14,8 @@ export default class tokenValidation {
       return res.status(401).json({ message: 'Token not found' });
     }
     try {
-      // const verifyToken = jwt.verify(token, secret); // Qual o retorno?
-      // verifyToken = req.body
+      const verifyToken = jwt.verify(token, secret); // Qual o retorno?
+      req.body.email = verifyToken;
       next();
     } catch (err) {
       throw new Error('Token must be a valid token');
