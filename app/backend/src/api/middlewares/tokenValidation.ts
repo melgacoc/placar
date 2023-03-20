@@ -15,7 +15,7 @@ export default class tokenValidation {
     }
     try {
       const verifyToken = jwt.verify(token, secret); // Qual o retorno?
-      req.body.email = verifyToken;
+      req.body.user = verifyToken;
       next();
     } catch (err) {
       throw new Error('Token must be a valid token');

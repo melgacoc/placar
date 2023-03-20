@@ -16,11 +16,10 @@ export default class UserController {
   };
 
   public role = async (req: Request, res: Response) => {
-    const { email } = req.body;
-    const role = await this.userService.role(email);
-    if (!role) {
+    const { user } = req.body;
+    if (!user) {
       return res.status(400).json({ message: 'Invalid email' });
     }
-    return res.status(200).json({ role });
+    return res.status(200).json(user.role);
   };
 }

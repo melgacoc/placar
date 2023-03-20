@@ -1,8 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import UserModel from '../../database/models/UserModel';
-import IRole from '../interfaces/IUser';
 import IUserService from '../interfaces/IServiceUser';
-// import IToken from '../interfaces/IToken';
 import tokenStuffs from '../token/tokenGen';
 
 export default class UserService implements IUserService {
@@ -17,15 +15,7 @@ export default class UserService implements IUserService {
       return null;
     }
 
-    const token = tokenStuffs.genToken(email);
+    const token = tokenStuffs.genToken(user.email, user.userName, user.role);
     return token;
-  };
-
-  role = async (email: string): Promise<IRole | null> => {
-    const user = UserModel.findOne({ where: { email }, attributes: ['role'] });
-    if (!user) {
-      return null;
-    }
-    return user;
   };
 }

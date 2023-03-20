@@ -1,6 +1,7 @@
 import * as express from 'express';
 import Teams from './routes/Teams';
 import User from './routes/User';
+import Matches from './routes/Matches';
 
 class App {
   public app: express.Express;
@@ -18,6 +19,7 @@ class App {
   private initRoutes(): void {
     this.app.use('/teams', Teams);
     this.app.use('/login', User);
+    this.app.use('/matches', Matches);
   }
 
   private config():void {
