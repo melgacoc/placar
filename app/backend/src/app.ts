@@ -1,7 +1,8 @@
 import * as express from 'express';
+import 'express-async-errors'; // lida com erros assíncronos e manda pro middleware
 import Teams from './routes/Teams';
 import User from './routes/User';
-import Matches from './routes/Matches';
+import Error from './api/middlewares/ErrorHandler';
 
 class App {
   public app: express.Express;
@@ -19,7 +20,7 @@ class App {
   private initRoutes(): void {
     this.app.use('/teams', Teams);
     this.app.use('/login', User);
-    this.app.use('/matches', Matches);
+    this.app.use(Error.handle);
   }
 
   private config():void {

@@ -10,6 +10,6 @@ const service = new UserService();
 const controller = new UserController(service);
 
 router.post('/', userValidation.loginValidation, controller.login);
-router.post('/role', tokenValidation.tokenValidation, controller.role);
+router.get('/role', tokenValidation.tokenValidation, controller.findRole);
 
 export default router;

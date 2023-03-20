@@ -14,11 +14,11 @@ export default class tokenValidation {
       return res.status(401).json({ message: 'Token not found' });
     }
     try {
-      const verifyToken = jwt.verify(token, secret); // Qual o retorno?
+      const verifyToken = jwt.verify(token, secret);
       req.body.user = verifyToken;
-      next();
     } catch (err) {
       throw new Error('Token must be a valid token');
     }
+    next();
   }
 }
