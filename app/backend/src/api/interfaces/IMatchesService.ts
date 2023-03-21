@@ -33,5 +33,5 @@ export interface IMatchesService {
   newMatch(homeTeamId: number,
     awayTeamId: number,
     homeTeamGoals: number,
-    awayTeamGoals: number): Promise<NewMatch>;
+    awayTeamGoals: number): Promise<NewMatch | null>;
 }

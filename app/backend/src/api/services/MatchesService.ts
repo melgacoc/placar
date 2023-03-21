@@ -39,10 +39,17 @@ export default class MatchService implements IMatchesService {
 
   newMatch = async (
     homeTeamId: number,
-    awayTeamId: number,
     homeTeamGoals: number,
+    awayTeamId: number,
     awayTeamGoals: number,
-  ): Promise<NewMatch> => {
+  ): Promise<NewMatch | null> => {
+    const findHomeTeam = await this.model.findOne({ where: { id: homeTeamId } });
+    const findAwayTeam = await this.model.findOne({ where: { id: awayTeamId } });
+
+    if (!findHomeTeam || !findAwayTeam) {
+      return null;
+    }
+
     const result = await this.model.create({
       homeTeamId,
       awayTeamId,
@@ -50,6 +57,7 @@ export default class MatchService implements IMatchesService {
       awayTeamGoals,
       inProgress: true,
     });
+
     return result;
   };
 }
