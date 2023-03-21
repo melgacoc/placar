@@ -15,6 +15,15 @@ export interface Match {
   }
 }
 
+export interface NewMatch {
+  id: number,
+  homeTeamId: number,
+  awayTeamId: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+}
+
 export interface IMatchesService {
   getAll(): Promise<Matches[]>;
   finishById(id: number): Promise<void>;
@@ -24,5 +33,5 @@ export interface IMatchesService {
   newMatch(homeTeamId: number,
     awayTeamId: number,
     homeTeamGoals: number,
-    awayTeamGoals: number): Promise<Matches>;
+    awayTeamGoals: number): Promise<NewMatch>;
 }

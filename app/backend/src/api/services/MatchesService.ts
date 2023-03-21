@@ -1,5 +1,5 @@
 import { ModelStatic } from 'sequelize';
-import { IMatchesService } from '../interfaces/IMatchesService';
+import { IMatchesService, NewMatch } from '../interfaces/IMatchesService';
 import TeamModel from '../../database/models/TeamModel';
 import Matches from '../../database/models/MatchModel';
 
@@ -42,13 +42,14 @@ export default class MatchService implements IMatchesService {
     awayTeamId: number,
     homeTeamGoals: number,
     awayTeamGoals: number,
-  ): Promise<Matches> => {
-    const result = await this.model.create(
+  ): Promise<NewMatch> => {
+    const result = await this.model.create({
       homeTeamId,
       awayTeamId,
       homeTeamGoals,
       awayTeamGoals,
-    );
+      inProgress: true,
+    });
     return result;
   };
 }
