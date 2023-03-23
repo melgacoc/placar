@@ -3,6 +3,7 @@ import 'express-async-errors'; // lida com erros assíncronos e manda pro middle
 import Teams from './routes/Teams';
 import User from './routes/User';
 import Matches from './routes/Matches';
+import LeaderBoard from './routes/Leaderboard';
 import Error from './api/middlewares/ErrorHandler';
 
 class App {
@@ -22,6 +23,7 @@ class App {
     this.app.use('/teams', Teams);
     this.app.use('/login', User);
     this.app.use('/matches', Matches);
+    this.app.use('/leaderboard', LeaderBoard);
     this.app.use(Error.handle);
   }
 
