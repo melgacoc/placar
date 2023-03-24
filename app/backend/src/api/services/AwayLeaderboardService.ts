@@ -5,7 +5,7 @@ import ILeaderBoard from '../interfaces/ILeaderBoard';
 import ILeaderBoardService from '../interfaces/ILeaderBoardService';
 // import Matches from '../../database/models/MatchModel';
 
-export default class LeaderboardService implements ILeaderBoardService {
+export default class AwayLeaderboardService implements ILeaderBoardService {
   protected maTchModel: ModelStatic<MaTchModel> = MaTchModel;
   protected teamModel: ModelStatic<TeamModel> = TeamModel;
 
@@ -46,29 +46,29 @@ export default class LeaderboardService implements ILeaderBoardService {
   resultByTeam(result: MaTchModel[]) {
     const newScore = this.newScore();
     const score = result.reduce((acc, crr) => {
-      if (crr.homeTeamGoals > crr.awayTeamGoals) {
+      if (crr.awayTeamGoals > crr.homeTeamGoals) {
         acc.totalVictories += 1;
         acc.totalPoints += 3;
-      } else if (crr.homeTeamGoals === crr.awayTeamGoals) {
+      } else if (crr.awayTeamGoals === crr.homeTeamGoals) {
         acc.totalDraws += 1;
         acc.totalPoints += 1;
       } else {
         acc.totalLosses += 1;
       }
-      acc.goalsFavor += crr.homeTeamGoals;
-      acc.goalsOwn += crr.awayTeamGoals;
+      acc.goalsFavor += crr.awayTeamGoals;
+      acc.goalsOwn += crr.homeTeamGoals;
       acc.totalGames += 1;
       return acc;
     }, newScore);
     return score;
   }
 
-  async leaderboard(): Promise<ILeaderBoard[]> {
+  async renderLeaderboard(): Promise<ILeaderBoard[]> {
     const matches = await this.getFinishedMatches();
     const teams = await this.getTeams();
     return matches.map((e) => {
-      const team = teams.find(({ id }) => id === e.homeTeamId) || { id: -1, teamName: '' };
-      const filteredTeams = matches.filter(({ homeTeamId }) => homeTeamId === team.id);
+      const team = teams.find(({ id }) => id === e.awayTeamId) || { id: -1, teamName: '' };
+      const filteredTeams = matches.filter(({ awayTeamId }) => awayTeamId === team.id);
       const scoreBoardByTeam = this.resultByTeam(filteredTeams);
       scoreBoardByTeam.name = team.teamName;
       scoreBoardByTeam.goalsBalance = scoreBoardByTeam.goalsFavor - scoreBoardByTeam.goalsOwn;
@@ -78,8 +78,8 @@ export default class LeaderboardService implements ILeaderBoardService {
     });
   }
 
-  async leaderboardHome(): Promise<ILeaderBoard[]> {
-    const teams = await this.leaderboard();
+  async leaderboard(): Promise<ILeaderBoard[]> {
+    const teams = await this.renderLeaderboard();
     return teams;
   }
 }

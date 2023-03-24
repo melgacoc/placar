@@ -3,7 +3,8 @@ import ILeaderBoard from './ILeaderBoard';
 
 export default interface ILeaderBoardService {
   getFinishedMatches(): Promise<Matches[]>
-  // resultByTeam(result: Matches[], id: number): Promise<ILeaderBoard>
-  leaderboardHome(): Promise<ILeaderBoard[]>;
+  // resultByTeam(result: Matches[]): Promise<ILeaderBoard>
+  renderLeaderboard(): Promise<ILeaderBoard[]>;
   leaderboard(): Promise<ILeaderBoard[]>;
+
 }
