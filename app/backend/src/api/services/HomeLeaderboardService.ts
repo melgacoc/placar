@@ -63,7 +63,7 @@ export default class LeaderboardService implements ILeaderBoardService {
     return score;
   }
 
-  async leaderboard(): Promise<ILeaderBoard[]> {
+  async renderLeaderboard(): Promise<ILeaderBoard[]> {
     const matches = await this.getFinishedMatches();
     const teams = await this.getTeams();
     return matches.map((e) => {
@@ -76,10 +76,5 @@ export default class LeaderboardService implements ILeaderBoardService {
         scoreBoardByTeam.totalGames * 3)) * 100).toFixed(2);
       return scoreBoardByTeam;
     });
-  }
-
-  async renderLeaderboard(): Promise<ILeaderBoard[]> {
-    const teams = await this.leaderboard();
-    return teams;
   }
 }

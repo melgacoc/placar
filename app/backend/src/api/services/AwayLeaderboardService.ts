@@ -77,9 +77,4 @@ export default class AwayLeaderboardService implements ILeaderBoardService {
       return scoreBoardByTeam;
     });
   }
-
-  async leaderboard(): Promise<ILeaderBoard[]> {
-    const teams = await this.renderLeaderboard();
-    return teams;
-  }
 }

@@ -17,7 +17,7 @@ describe ('Tests for user route', function () {
     let chaiHttpResponse: Response;
 
     before (async function () {
-        sinon.stub(UserModel, 'findOne').resolves(user as unknown as Users); 
+        sinon.stub(UserModel, 'findOne').resolves(user as unknown as UserModel); 
     });
 
     afterEach(function (){
@@ -69,27 +69,27 @@ describe ('Tests for user route', function () {
     it('Should return an error with a not valid email type', async function() {
 
         chaiHttpResponse = await chai.request(app).post('/login').send({
-            email: 'admin',
+            email: 'admin123@admin.com',
             senha: user.password,
         });
 
         const result = chaiHttpResponse
 
         expect(result.status).to.be.equal(400);
-        expect(result.body.message).to.be.equal('Invalid email or password');
+        expect(result.body.message).to.be.equal('All fields must be filled');
     });
 
     it('Should return an error with a not valid password type', async function() {
             
         chaiHttpResponse = await chai.request(app).post('/login').send({
             email: user.email,
-            senha: 'alou',
+            senha: 'secret_admin123',
         });
 
         const result = chaiHttpResponse
 
         expect(result.status).to.be.equal(400);
-        expect(result.body.message).to.be.equal('Invalid email or password');
+        expect(result.body.message).to.be.equal('All fields must be filled');
     });
 
     it('Should return a role with a valid token', async function () {

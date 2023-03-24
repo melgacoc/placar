@@ -5,7 +5,7 @@ export default class LeaderboardController {
   constructor(private leaderboardSevice: ILeaderBoardService) {}
 
   public async leaderboardHome1(_req: Request, res: Response): Promise<Response> {
-    const leaderboard = await this.leaderboardSevice.leaderboard();
+    const leaderboard = await this.leaderboardSevice.renderLeaderboard();
     const deleteDuplicates = leaderboard.filter((e, i) => (
       i === leaderboard.findIndex(
         (team) => team.name === e.name,
